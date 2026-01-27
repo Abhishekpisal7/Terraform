@@ -1,0 +1,13 @@
+users:
+  - username: admin
+    policies:
+      - AmazonEC2FullAccess
+      - AmazonS3FullAccess
+  - username: developer
+    policies:
+      - AmazonEC2ReadOnlyAccess
+      - AmazonS3FullAccess
+  - username: tester
+    policies:
+      - AmazonEC2ReadOnlyAccess
+      - AmazonS3ReadOnlyAccess
