@@ -27,20 +27,25 @@ Each project is organized in its own directory with the required Terraform confi
    ```bash
    terraform init
    ```
+2. Validate code:
 
-2. Preview changes:
+   ```bash
+   terraform validate
+   ```
+
+3. Preview changes:
 
    ```bash
    terraform plan
    ```
 
-3. Apply configuration:
+4. Apply configuration:
 
    ```bash
    terraform apply
    ```
 
-4. Destroy infrastructure (if required):
+5. Destroy infrastructure (if required):
 
    ```bash
    terraform destroy
