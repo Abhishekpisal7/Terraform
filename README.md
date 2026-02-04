@@ -11,7 +11,7 @@ This repository contains **Terraform configurations** used to provision and mana
 ## 🛠️ Tools & Technologies
 
 * **Terraform**
-* **Cloud Provider:** (AWS – update as needed)
+* **Cloud Provider:** (AWS)
 * **Git & GitHub**
 
 ## 📂 Repository Overview
@@ -55,9 +55,3 @@ Each project is organized in its own directory with the required Terraform confi
 
 * Make sure cloud credentials are configured properly
 * Do not commit sensitive values (use `.tfvars` or environment variables)
-
-## 📄 License
-
-This project is for learning and practice purposes.
-
----
