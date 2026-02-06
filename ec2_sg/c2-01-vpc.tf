@@ -11,5 +11,6 @@ module "vpc" {
 
     enable_database_subnet_group = true
     database_subnet = ["10.0.50.0/24", "10.0.60.0/24"]
-  
+    
+    
 }

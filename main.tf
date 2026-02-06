@@ -1,74 +1,75 @@
-provider "aws" {
-    
-    region = "ap-south-1"
-  
-}
-
-# This data block is for the first availability zone
-data "aws_availability_zones" "name" {
-
-    state = "available"
-}
-
-output "available-zone" {
-
-    value = data.aws_availability_zones.name.names
-  
-}
-
-# This data block is for the default security group in the first availability zone
-data "aws_security_group" "name" {
-
-    name = "default"
-}
-
-output "security_group_id" {
-
-    value = data.aws_security_group.name.id
-  
-}
-
-# This data block is for the default VPC
-data "aws_vpc" "name" {
-
-    tags = {
-      type = "default_vpc"
+terraform {
+    required_version = "~> 1.14.4"
+    required_providers {
+        aws = {
+            source = "hashicorp/aws"
+            version = "~> 6.31"
+        }
     }
+
+    # backend "s3" {
+    #     bucket = "value"
+    #     key = "value"
+    #     path = "value"
+    # }
+
 }
 
-output "vpc_id" {
-
-    value = data.aws_vpc.name.id
-
+provider "aws" {
+    region = "ap-south-1"
 }
 
-# This data block is for the latest Amazon Linux AMI
-data "aws_ami" "amazon_linux" {
+data "aws_availability_zones" "zone" {
+    state = "available"  
+}
 
+data "aws_ami" "name" {
     most_recent = true
-    owners = ["amazon"]
+    owners = [ "099720109477" ]
 
     filter {
-        name = "name"
-        values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+      name = "name"
+      values = [ "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*" ]
     }
+
+    filter {
+      name = "root-device-type"
+      values = [ "ebs" ]
+    }
+
+    filter {
+      name = "virtualization-type"
+      values = [ "hvm" ]
+    }
+
+    filter {
+      name = "architecture"
+      values = [ "x86_64" ]
+    }
+
+}
+output "ami-id" {
+  value = [ data.aws_ami.name.id ]
+}
+output "zone" {
+  value =[
+     for i, name in data.aws_availability_zones.zone.names:{
+        name = name
+        zone-id = data.aws_availability_zones.zone.zone_ids[i]
+  }]
 }
 
-output "ami_id" {
-    description = "latest Amazon Linux AMI"
-    value = data.aws_ami.amazon_linux.id  
-}
-
-
-resource "aws_instance" "Test_instance" {
-    
-    ami = data.aws_ami.amazon_linux.id
+resource "aws_instance" "demo" {
+    ami = data.aws_ami.name.id
+    key_name = "demo"
     instance_type = "t2.micro"
-    key_name = "newkey"
-    vpc_security_group_ids = [data.aws_security_group.name.id]
+    availability_zone = data.aws_availability_zones.zone.names[1]
 
     tags = {
-      Name = "Test_insttance"
+      "env" = "dev"
     }
-  
-}
+  }
+
+  output "instance-id" {
+      value = aws_instance.demo.id
+  }
