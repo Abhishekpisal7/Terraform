@@ -1,7 +1,7 @@
 resource "aws_security_group" "bastion_sg" {
     name = "Bastion Security Group"
     description = "Security for Bastion host in public subnet"
-    vpc_id = aws_vpc.my_vpc.id
+    vpc_id = module.vpc.vpc_id
 
     ingress {
         description = "Allow SSH traffic for Bastion host"
@@ -24,3 +24,4 @@ resource "aws_security_group" "bastion_sg" {
     }
   
 }
+

@@ -1,7 +1,7 @@
 resource "aws_security_group" "private_sg" {
     name = "private_sg"
     description = "Security Group for Private Subnet"
-    vpc_id = aws_vpc.my_vpc.id
+    vpc_id = module.vpc.vpc_id
 
     ingress {
         description = "Allow Necessary Traffic"
@@ -21,8 +21,8 @@ resource "aws_security_group" "private_sg" {
 
     egress {
         description = "Allow All Outbound Traffic"
-        to_port = 22
-        from_port = 22
+        to_port = 0
+        from_port = 0
         protocol = "-1"
         cidr_blocks = [module.vpc.vpc_cidr_block]
     }
