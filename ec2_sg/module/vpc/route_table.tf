@@ -11,6 +11,7 @@ resource "aws_route_table" "public_subnet_table" {
   }
 }
 
+# Route table for private subnets
 resource "aws_route_table" "private_subnet_table" {
   vpc_id = aws_vpc.my_vpc.id
   for_each = tomap(local.local_values)
@@ -23,6 +24,7 @@ resource "aws_route_table" "private_subnet_table" {
   }
 }
 
+# Route table for database subnet group
 resource "aws_route_table" "db_subnet_table" {
   vpc_id = aws_vpc.my_vpc.id
   for_each = tomap(local.local_values)
