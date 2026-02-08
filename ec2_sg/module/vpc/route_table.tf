@@ -45,7 +45,6 @@ resource "aws_route_table_association" "public_subnet_association" {
 resource "aws_route_table_association" "private_subnet_association" {
   for_each = toset(var.azs)
   subnet_id = aws_subnet.private_subnet[each.value].id
-  # route_table_id = var.enable_single_nat_gateway? aws_route_table.private_subnet_table[var.azs[0]].id : aws_route_table.private_subnet_table[each.value].id 
   route_table_id = aws_route_table.private_subnet_table[each.value].id
 }
 
