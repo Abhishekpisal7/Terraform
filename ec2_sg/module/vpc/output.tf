@@ -5,22 +5,31 @@ output "vpc_id" {
 
 output "public_subnet_id" {
   description = "public subnet id"
-  value = [
-    for name, i in aws_subnet.public_subnet : {   
-        name = name
-        subnet-id = i.id  
+  # value = [
+  #   for name, i in aws_subnet.public_subnet : {   
+  #       name = name
+  #       subnet-id = i.id  
+  #   }
+  # ]
+    value = {  
+      for i, int in aws_subnet.public_subnet: 
+        i =>  int.id   
+      
     }
-  ]
 }
 
 output "private_subnet_id" {
   description = "private subnet id"
-  value = [ 
-    for name,i in aws_subnet.private_subnet:{
-        name = name
-        subnet-id =i.id
-    }
-  ]
+  # value = [ 
+  #   for name,i in aws_subnet.private_subnet:{
+  #       name = name
+  #       subnet-id =i.id
+  #   }
+  # ]
+  value = {  
+      for i, int in aws_subnet.private_subnet:
+        i =>  int.id   
+  }
 }
 
 output "vpc_cidr_block" {
